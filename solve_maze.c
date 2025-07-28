@@ -18,7 +18,6 @@ void get_dimensions(FILE* fp, int* width, int* height);
 void check_pointer(cell* pointer);
 int find_start(cell* maze, int width, int height);
 void init_maze(cell* maze, int area);
-void print_vis(cell* maze, int width, int height);
 bool find_end(cell* maze, int i, int j, int width, int height);
 void fill_path(cell* maze, int area);
 
@@ -114,16 +113,21 @@ void fill_maze(FILE* fp, cell* maze, int area) {
 
 void print_maze(cell* maze, int width, int height) {
 
+    printf("\n");
+
     check_pointer(maze);
 
     for (int row=0; row<height; row++) {
         for (int col=0; col<width; col++) {
             // ReSharper disable once CppDFANullDereference
             if (maze[row*width + col].ch == '.') {
-                printf("\033[31m%c \033[0m", maze[row*width + col].ch);
+                printf("\033[101m  \033[0m");
+            }
+            else if (maze[row*width + col].ch == '#') {
+                printf("\033[47m  \033[0m");
             }
             else {
-                printf("%c ", maze[row*width + col].ch);
+                printf("  ");
             }
         }
         printf("\n");
@@ -165,23 +169,4 @@ void fill_path(cell* maze, int area) {
             maze[i].ch = '.';
         }
     }
-}
-
-void print_vis(cell* maze, int width, int height) {
-
-    check_pointer(maze);
-
-    for (int row=0; row<height; row++) {
-        for (int col=0; col<width; col++) {
-
-            if (maze[row*width + col].vis == true) {
-                printf("T ");
-            }
-            else {
-                printf("F ");
-            }
-        }
-        printf("\n");
-    }
-    printf("\n");
 }
